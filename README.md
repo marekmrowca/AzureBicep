@@ -17,7 +17,7 @@ Modularize approach is taken. Advantages of using modules:
 Test Standard Load Balancer with a pool of VMs.
 ### LoadBalancerDynamicIPs
 IP allocation method for Network Interfaces is dynamic.
-Dynamic IP allocation results in possible circular dependencies, therefore I couldn't define LoadBalancer in a separate module, because BackendPool members can only be added in NIC resource.
+With Dynamic IP allocation methid I skipped definining LoadBalancer in a separate module to simplify the project, because BackendPool members can only be added in NIC resource. Therefore I defined LoadBalancer in network module together with the rest of network resources, including NIC.
 ### LoadBalancerStaticIPs
 Another scenario to test could be that IP allocation method for Network Interfaces is static. In this scenario IPs could be assigned in a loop of loadBalancerBackendAddresses in LoadBalancer resource. 
 ### LoadBalancer creation limitations
