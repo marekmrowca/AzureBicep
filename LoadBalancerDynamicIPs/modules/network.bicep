@@ -140,6 +140,26 @@ resource loadBalancerExternal 'Microsoft.Network/loadBalancers@2025-01-01' = {
         }
       }
     ]
+    inboundNatRules: [
+      {
+        name: inatrulesName
+        properties: {
+          backendAddressPool: {
+            id: resourceId('Microsoft.Network/loadBalancers/backendAddressPools', lbName, bpoolName)
+          }
+          backendPort: 3389
+          enableFloatingIP: false
+          enableTcpReset: false
+          frontendIPConfiguration: {
+            id: resourceId('Microsoft.Network/loadBalancers/frontendIPConfigurations', lbName, frontendName)
+          }
+          frontendPortRangeEnd: 3390+vmCount
+          frontendPortRangeStart: 3390
+          idleTimeoutInMinutes: 5
+          protocol: 'Tcp'
+        }
+      }
+    ]
   }
 }
 
@@ -179,27 +199,6 @@ resource publicIP 'Microsoft.Network/publicIPAddresses@2025-01-01' = {
     }
   }
 } 
-
-
-resource inboundNatRules 'Microsoft.Network/loadBalancers/inboundNatRules@2025-01-01' = {
-  parent: loadBalancerExternal
-  name: inatrulesName
-    properties: {
-    backendAddressPool: {
-      id: loadBalancerExternal.properties.backendAddressPools[0].id
-    }
-    backendPort: 3389
-    enableFloatingIP: false
-    enableTcpReset: false
-    frontendIPConfiguration: {
-      id: loadBalancerExternal.properties.frontendIPConfigurations[0].id
-    }
-    frontendPortRangeEnd: 3390+vmCount
-    frontendPortRangeStart: 3390
-    idleTimeoutInMinutes: 5
-    protocol: 'Tcp'
-  }
-}
 
 output subnetWorkloadId string = subnetWorkload.id
 output nicIds array = [for i in range(0, vmCount): networkInterfaces[i].id]
