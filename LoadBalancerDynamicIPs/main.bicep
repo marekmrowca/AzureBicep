@@ -1,34 +1,32 @@
-var location = 'Canada Central'
-var vmName = 'mm-vm-workload'
-var osDiskName = '${vmName}-disk'
-var nicName = '${vmName}-nic'
-var compName = 'workload'
-var vmCount = 2
-var userName = 'marek'
-var lbName = 'mm-lb'
+param location string
+param vmName string
+param osDiskName string
+param nicName string
+param compName string
+param vmCount int
+param userName string
+@secure()
+param userPassword string
+param lbName string
+param vnetName string
+param subnetWorkloadName string
+param subnetLbName string
+param nsgName string
 
-// module lb 'loadbalancer.bicep' = {
-//   name: 'mm-lb-deployment'
-//   params: {
-//     location: location
-//     lbName: lbName
-//   }
-// }
-module network 'network.bicep' = {
+module network 'modules/network.bicep' = {
   name: 'mm-vnet-deployment'
   params: {
     location: location
-    vnetName: 'mm-vnet'
-    subnetWorkloadName: 'subnet-workload'
-    subnetLbName: 'subnet-lb'
-    nsgName: 'mm-nsg'
+    vnetName: vnetName
+    subnetWorkloadName: subnetWorkloadName
+    subnetLbName: subnetLbName
+    nsgName: nsgName
     nicName: nicName
     vmCount: vmCount
     lbName: lbName
-    // lbbackendpoolId: lb.outputs.lbbackendpoolId  
     }
 }
-module vm 'vm.bicep' = {
+module vm 'modules/vm.bicep' = {
   name: 'mm-vm-deployment'
   params: {
     location: location
@@ -38,6 +36,7 @@ module vm 'vm.bicep' = {
     nicIds: network.outputs.nicIds
     vmCount: vmCount
     userName: userName
+    userPassword: userPassword
   }
 }
 
