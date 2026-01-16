@@ -61,7 +61,7 @@ resource nsgrulerdp 'Microsoft.Network/networkSecurityGroups/securityRules@2025-
     protocol: 'Tcp'
     sourcePortRange: '*'
     destinationPortRange: '3389'
-    sourceAddressPrefix: '82.177.199.243'
+    sourceAddressPrefix: '*'
     destinationAddressPrefix: '*'
     access: 'Allow'
     priority: 1000
@@ -77,7 +77,7 @@ resource nsgrulehttp 'Microsoft.Network/networkSecurityGroups/securityRules@2025
     protocol: 'Tcp'
     sourcePortRange: '*'
     destinationPortRange: '80'
-    sourceAddressPrefix: '82.177.199.243'
+    sourceAddressPrefix: '*'
     destinationAddressPrefix: '*'
     access: 'Allow'
     priority: 900
