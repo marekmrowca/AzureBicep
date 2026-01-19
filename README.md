@@ -38,3 +38,10 @@ Bicep is typically for infrastructure management. It can detect existence or lac
 For configuration management it's better to use dedicated tools like Ansible. 
 ### RunCommand resource for PowerShell and Bash
 RunCommand resource runs smoothly with IIS and PowerShell script, but it fails with Bash. I tried different tricks, but it was constantly failing to execute bash commands to install and confiugre nginx. 
+
+## Application Gateway
+Create 2 sets of VMs to simulate different workload
+1. Image processing VMs
+2. Video processing VM
+
+Application gateway will use path-based routing to route traffic to respective sets of VMs: image or video.
